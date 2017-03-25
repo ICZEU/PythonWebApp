@@ -1,6 +1,8 @@
 from sermonapp import app
 from flask import render_template
 
+#test
+
 @app.route('/')
 def index():
     return render_template('index.html')
