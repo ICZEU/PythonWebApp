@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  
+    <h1 class="page-header">{{ page_title }}</h1>
+
+    <form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="firstname">Vorname</label>
+                    <input type="text" class="form-control" id="firstname">
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Nachname</label>
+                    <input type="text" class="form-control" id="lastname">
+                </div>
+                <div class="form-group">
+                    <label for="description">Beschreibung</label>
+                    <textarea class="form-control" rows="8" id="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="portrait">Bild</label>
+                    <input type="file" id="portrait">
+                </div>
+                <br />
+                <button type="submit" class="btn btn-lg btn-success">Speichern</button>
+                <a href="{{ url_for('speaker_index') }}" class="btn btn-danger">Abbrechen</a>
+                <a href="{{ url_for('speaker_index') }}" class="btn btn-default pull-right">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
+                </a>
+            </div>
+            <div class="col-md-offset-1 col-md-5">
+                <img src="https://images.unsplash.com/photo-1489548277531-6e7426ce3c74?dpr=1&auto=compress,format&fit=crop&w=376&h=251&q=80&cs=tinysrgb&crop=" width="200" height="200" class="img-thumbnail" alt="">
+            </div>
+        </div>
+    </form>
+
+
+{% endblock %}

@@ -51,10 +51,10 @@
         <div class="col-sm-3 col-md-2 sidebar"> 
           <ul class="nav nav-sidebar">
             <li class="active"><a href="/">Übersicht</a></li>
-            <li><a href="/sermons">Predigten</a></li>
-            <li><a href="/speakers">Prediger</a></li>
-            <li><a href="series">Serien</a></li>
-            <li><a href="categories">Kategorien</a></li>
+            <li><a href="{{ url_for('sermon_index') }}">Predigten</a></li>
+            <li><a href="{{ url_for('speaker_index') }}">Prediger</a></li>
+            <li><a href="{{ url_for('series_index') }}">Serien</a></li>
+            <li><a href="{{ url_for('category_index') }}">Kategorien</a></li>
           </ul>
           <!--
           <ul class="nav nav-sidebar">
