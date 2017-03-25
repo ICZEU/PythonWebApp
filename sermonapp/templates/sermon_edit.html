@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  
+    <h1 class="page-header">{{ page_title }}</h1>
+
+    <form>
+        <div class="form-group">
+            <label for="title">Titel</label>
+            <input type="text" class="form-control" id="title">
+        </div>
+        <div class="form-group">
+            <label for="date">Datum</label>
+            <input id="date" type="date" style="width: 100%">
+        </div>
+        <div class="form-group">
+            <label for="speaker">Prediger</label>
+            <select id="speaker" placeholder="Prediger suchen..." style="width: 100%;">
+              <option></option>
+              <option>Andreas Sommer</option>
+              <option>Ignaz Netzer</option>
+              <option>Mark Soboda</option>
+              <option>Markus Schaffelwahn</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="series">Serie</label>
+            <select id="series" placeholder="Serie suchen..." style="width: 100%;">
+              <option></option>
+              <option>Kirche für diese Generation</option>
+              <option>Das Johannes-Evangelium</option>
+              <option>Die Gaben des Geistes</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="category">Kategorie</label>
+            <select id="category" placeholder="Kategorie suchen..." style="width: 100%;">
+              <option></option>
+              <option>Jugendgottesdienst</option>
+              <option>Sonttagsgottesdienst</option>
+              <option>Veranstaltung</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="verse">Bibelstellen</label>
+            <textarea class="form-control" id="verse" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="audio">Audio</label>
+            <input type="file" id="audio">
+        </div>
+        <div class="form-group">
+            <label for="movietype">Video - Typ</label>
+            <select id="movietype" class="form-control">
+                <option>Vimeo</option>
+                <option>Youtube</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="embedid">Video - Embed Id</label>
+            <input id="embedid" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="datestart">Sichtbar ab</label>
+            <input id="datestart" type="date" style="width: 100%">
+        </div>
+        <div class="form-group">
+            <label for="dateend">Sichtbar bis</label>
+            <input id="dateend" type="date" style="width: 100%">
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox"> Verbergen</label>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-lg btn-success">Speichern</button>
+        <a href="{{ url_for('sermon_index') }}" class="btn btn-danger">Abbrechen</a>
+        <a href="{{ url_for('sermon_index') }}" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
+        </a>
+    </form>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#speaker").kendoComboBox({
+            animation: false,
+            filter: "contains"
+        });
+        $("#series").kendoComboBox({
+            animation: false,
+            filter: "contains"
+        });
+        $("#category").kendoComboBox({
+            animation: false,
+            filter: "contains"
+        });
+
+        $("input[type=date]").kendoDatePicker();
+
+        //Open on focus logic
+        $(function() {
+            $("[data-role=combobox]").each(function() {
+            var widget = $(this).getKendoComboBox();
+            widget.input.on("focus", function() {
+                    widget.open();
+            });
+            });
+        });
+    </script>
+{% endblock %} 

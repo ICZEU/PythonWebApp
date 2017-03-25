@@ -6,4 +6,33 @@
   
     <h1 class="page-header">Predigten</h1>
 
+    <div class="row searchbox">
+        <div class="col-md-6">
+            <form>
+                <input type="text" class="form-control" placeholder="Suche...">
+            </form>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Datum</th>
+                <th>Titel</th>
+                <th>Prediger</th>
+                <th>Serie</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10.3.2017</td>
+                <td><a href="{{ url_for('sermon_edit') }}">Wüstenmomente</a></td>
+                <td>Sommer, Andreas</td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('sermon_add') }}" class="btn btn-primary">Hinzufügen</a>
+
 {% endblock %}

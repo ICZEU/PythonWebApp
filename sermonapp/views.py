@@ -11,6 +11,14 @@ def index():
 def sermon_index():
     return render_template('sermon_index.html')
 
+@app.route('/sermons/add')
+def sermon_add():
+    return render_template('sermon_edit.html', page_title = "Predigt hinzufügen")
+
+@app.route('/sermons/edit')
+def sermon_edit():
+    return render_template('sermon_edit.html', page_title = "Predigt bearbeiten")
+
 @app.route('/speakers')
 def speaker_index():
     return render_template('speaker_index.html')
@@ -26,6 +34,14 @@ def speaker_edit():
 @app.route('/series')
 def series_index():
     return render_template('series_index.html')
+
+@app.route('/series/add')
+def series_add():
+    return render_template('series_edit.html', page_title = "Serie hinzufügen")
+
+@app.route('/series/edit')
+def series_edit():
+    return render_template('series_edit.html', page_title = "Serie bearbeiten")
 
 @app.route('/categories')
 def category_index():

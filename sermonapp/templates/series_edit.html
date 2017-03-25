@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+  
+    <h1 class="page-header">{{ page_title }}</h1>
+
+    <form>
+        <div class="form-group">
+            <label for="title">Titel</label>
+            <input type="text" class="form-control" id="title">
+        </div>
+        <div class="form-group">
+            <label for="description">Beschreibung</label>
+            <textarea class="form-control" rows="8" id="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="image">Vorschaubild</label>
+            <input type="file" id="image">
+        </div>
+        <br />
+        <button type="submit" class="btn btn-lg btn-success">Speichern</button>
+        <a href="{{ url_for('series_index') }}" class="btn btn-danger">Abbrechen</a>
+        <a href="{{ url_for('series_index') }}" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
+        </a>
+    </form>
+
+
+{% endblock %}

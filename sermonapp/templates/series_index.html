@@ -6,4 +6,33 @@
   
     <h1 class="page-header">Serien</h1>
 
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Vorschaubild</th>
+                <th>Erstellt am</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><a href="{{ url_for('series_edit') }}">Kirche für diese Generation</a></td>
+                <td><img width="100" height="100" src="http://www.ecclesia-ulm.de/fileadmin/_processed_/csm_Internationales_Fest_vorne_af8ff41a87.jpg" /></td>
+                <td>11.10.2016</td>
+            </tr>
+            <tr>
+                <td><a href="{{ url_for('series_edit') }}">Das Johannes-Evangelium</a></td>
+                <td></td>
+                <td>01.10.2016</td>
+            </tr>
+            <tr>
+                <td><a href="{{ url_for('series_edit') }}">Die Gaben des Geistes</a></td>
+                <td></td>
+                <td>16.08.2016</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('series_add') }}" class="btn btn-primary">Hinzufügen</a>
+
 {% endblock %}
