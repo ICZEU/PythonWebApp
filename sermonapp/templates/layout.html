@@ -52,11 +52,11 @@
 
         <div class="col-sm-3 col-md-2 sidebar"> 
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="/">Übersicht</a></li>
-            <li><a href="{{ url_for('sermon_index') }}">Predigten</a></li>
-            <li><a href="{{ url_for('speaker_index') }}">Prediger</a></li>
-            <li><a href="{{ url_for('series_index') }}">Serien</a></li>
-            <li><a href="{{ url_for('category_index') }}">Kategorien</a></li>
+            <li class="{{ request.url_rule.rule == '/' and 'active' or '' }}"><a href="{{ url_for('index') }}">Übersicht</a></li>
+            <li class="{{ request.url_rule.rule.startswith('/sermons') and 'active' or '' }}"><a href="{{ url_for('sermon_index') }}">Predigten</a></li>
+            <li class="{{ request.url_rule.rule.startswith('/speakers') and 'active' or '' }}"><a href="{{ url_for('speaker_index') }}">Prediger</a></li>
+            <li class="{{ request.url_rule.rule.startswith('/series') and 'active' or '' }}"><a href="{{ url_for('series_index') }}">Serien</a></li>
+            <li class="{{ request.url_rule.rule.startswith('/categories') and 'active' or '' }}"><a href="{{ url_for('category_index') }}">Kategorien</a></li>
           </ul>
         </div>
 
