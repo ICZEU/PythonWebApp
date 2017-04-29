@@ -1,17 +1,19 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+from sermonapp import db
+from sermonapp.models import User
+from sermonapp.models import Category
 
-engine = create_engine('sqlite:///sermonapp.db', convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=False,
-                                         bind=engine))
-Base = declarative_base()
-Base.query = db_session.query_property()
+def ensure_database():
+    """Initialize the database if it has not tables yet."""
+    if not db.engine.dialect.has_table(db.engine, User.__tablename__):
+        db.create_all()
+        seed()
 
-def init_db():
-    # import all modules here that might define models so that
-    # they will be registered properly on the metadata.  Otherwise
-    # you will have to import them first before calling init_db()
-    import sermonapp.models
-    Base.metadata.create_all(bind=engine)
+
+def seed():
+    """Add default data to the database."""
+    db.session.add(Category('Jugendgottesdienst'))
+    db.session.add(Category('Sonntagsgottesdienst'))
+    db.session.add(Category('Veranstaltung'))
+    db.session.commit()
