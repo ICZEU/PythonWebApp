@@ -6,25 +6,33 @@
   
     <h1 class="page-header">{{ page_title }}</h1>
 
-    <form>
+    <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Titel</label>
-            <input type="text" class="form-control" id="title">
+            <input type="text" class="form-control" name="title" id="title" value="{{ series.title }}">
         </div>
         <div class="form-group">
             <label for="description">Beschreibung</label>
-            <textarea class="form-control" rows="8" id="description"></textarea>
+            <textarea class="form-control" rows="8" name="description" id="description">{{ series.description }}</textarea>
         </div>
         <div class="form-group">
-            <label for="image">Vorschaubild</label>
-            <input type="file" id="image">
+            <label for="image">Bild</label>
+            {% if series and series.file %}
+            <br />
+            <img width="200" class="img-thumbnail"
+                        src="{{ url_for('get_file', file_id=series.file.id, file_name=series.file.name) }}" />
+            <br /><br />
+            {% endif %}
+            <input type="file" name="image" name="image" accept="image/*">
         </div>
         <br />
         <button type="submit" class="btn btn-lg btn-success">Speichern</button>
         <a href="{{ url_for('series_index') }}" class="btn btn-danger">Abbrechen</a>
-        <a href="{{ url_for('series_index') }}" class="btn btn-default pull-right">
+        {% if series %}
+        <a href="{{ url_for('series_delete', series_id=series.id) }}" class="btn btn-default pull-right">
             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
         </a>
+        {% endif %}
     </form>
 
 

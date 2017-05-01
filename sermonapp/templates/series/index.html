@@ -15,21 +15,18 @@
             </tr>
         </thead>
         <tbody>
+            {% for item in series %}
             <tr>
-                <td><a href="{{ url_for('series_edit') }}">Kirche für diese Generation</a></td>
-                <td><img width="100" height="100" src="http://www.ecclesia-ulm.de/fileadmin/_processed_/csm_Internationales_Fest_vorne_af8ff41a87.jpg" /></td>
-                <td>11.10.2016</td>
+                <td><a href="{{ url_for('series_edit', series_id=item.id) }}">{{ item.title }}</a></td>
+                <td>
+                    {% if item.file %}
+                    <img width="100" height="100"
+                        src="{{ url_for('get_file', file_id=item.file.id, file_name=item.file.name) }}" />
+                    {% endif %}
+                </td>
+                <td>{{ item.created_at | datetime }}</td>
             </tr>
-            <tr>
-                <td><a href="{{ url_for('series_edit') }}">Das Johannes-Evangelium</a></td>
-                <td></td>
-                <td>01.10.2016</td>
-            </tr>
-            <tr>
-                <td><a href="{{ url_for('series_edit') }}">Die Gaben des Geistes</a></td>
-                <td></td>
-                <td>16.08.2016</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 

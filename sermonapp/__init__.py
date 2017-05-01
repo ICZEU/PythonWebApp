@@ -6,11 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-app.secret_key = "foobarblub"
+# Keep this really secret. Used to sign the cookies.
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
 # Database access with SQLAlchemy.
 # Configuration: http://flask-sqlalchemy.pocoo.org/2.1/config/
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../sermonapp.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = SQLAlchemy(app)
 
 # Object serialization and deserialization
