@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+app.secret_key = "foobarblub"
 # Database access with SQLAlchemy.
 # Configuration: http://flask-sqlalchemy.pocoo.org/2.1/config/
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../sermonapp.db'
@@ -19,6 +20,7 @@ ma = Marshmallow(app)
 
 import sermonapp.models
 import sermonapp.controllers
+import sermonapp.template_filters
 
 # Initialize the database
 from sermonapp.database import ensure_database
