@@ -19,9 +19,9 @@
             <tr>
                 <td><a href="{{ url_for('series_edit', series_id=item.id) }}">{{ item.title }}</a></td>
                 <td>
-                    {% if item.file %}
-                    <img width="100" height="100"
-                        src="{{ url_for('get_file', file_id=item.file.id, file_name=item.file.name) }}" />
+                    {% if item.image %}
+                    <img width="100" height="100" alt="{{ item.image.name }}"
+                        src="{{ url_for('get_file', file_id=item.image.id, file_name=item.image.name) }}" />
                     {% endif %}
                 </td>
                 <td>{{ item.created_at | datetime }}</td>
