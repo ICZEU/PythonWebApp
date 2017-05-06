@@ -13,7 +13,15 @@ $(function() {
         var $sb = $(this);
         var text = $sb.val();
 
-        $(".speakers .speaker").hide();
-        $(".speakers .speaker").has("h4:contains('" + text + "')").show();
+        if (text)
+        {
+            $(".speakers .speaker").hide();
+            $(".speakers .speaker").has("h4:contains('" + text + "')").show();
+        }
+        else
+        {
+            $(".speakers .speaker").show();
+        }
+        
     });
 });

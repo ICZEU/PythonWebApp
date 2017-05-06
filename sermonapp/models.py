@@ -14,7 +14,10 @@ class Speaker(db.Model):
     id = Column('Id', Integer, primary_key=True)
     lastname = Column('LastName', String(200), nullable=False)
     firstname = Column('FirstName', String(200), nullable=False)
+    position = Column('Position', String(200))
     description = Column('Description', String(1000))
+    image_id = Column('ImageId', Integer, ForeignKey('Files.Id'))
+    image = relationship('File')
 
     def __init__(self, name=None):
         self.name = name

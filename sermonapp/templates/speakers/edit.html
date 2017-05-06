@@ -6,24 +6,28 @@
   
     <h1 class="page-header">{{ page_title }}</h1>
 
-    <form>
+    <form method="POST" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="firstname">Vorname</label>
-                    <input type="text" class="form-control" id="firstname">
+                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{ model.firstname }}">
                 </div>
                 <div class="form-group">
                     <label for="lastname">Nachname</label>
-                    <input type="text" class="form-control" id="lastname">
+                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{ model.lastname }}">
+                </div>
+                <div class="form-group">
+                    <label for="position">Job</label>
+                    <input type="text" class="form-control" id="position" name="position" value="{{ model.position }}">
                 </div>
                 <div class="form-group">
                     <label for="description">Beschreibung</label>
-                    <textarea class="form-control" rows="8" id="description"></textarea>
+                    <textarea class="form-control" rows="8" id="description" name="description">{{ model.description }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="portrait">Bild</label>
-                    <input type="file" id="portrait">
+                    <label for="image">Bild</label>
+                    <input type="file" name="image" name="image" accept="image/*">
                 </div>
                 <br />
                 <button type="submit" class="btn btn-lg btn-success">Speichern</button>
@@ -33,7 +37,10 @@
                 </a>
             </div>
             <div class="col-md-offset-1 col-md-5">
-                <img src="https://images.unsplash.com/photo-1489548277531-6e7426ce3c74?dpr=1&auto=compress,format&fit=crop&w=376&h=251&q=80&cs=tinysrgb&crop=" width="200" height="200" class="img-thumbnail" alt="">
+                {% if model.image %}
+                <img width="200" height="200" class="img-thumbnail" alt="{{ model.image.name }}"
+                        src="{{ url_for('get_file', file_id=model.image.id, file_name=model.image.name) }}" />
+                {% endif %}
             </div>
         </div>
     </form>

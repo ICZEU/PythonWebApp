@@ -5,7 +5,6 @@ from flask import jsonify
 from flask import make_response
 from flask import request
 from flask import abort
-from flask import Response
 from werkzeug.utils import secure_filename
 from sermonapp.models import File
 
