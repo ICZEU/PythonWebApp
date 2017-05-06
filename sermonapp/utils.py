@@ -4,24 +4,29 @@ from io import BytesIO
 from flask import jsonify
 from flask import make_response
 from flask import request
+from flask import abort
+from flask import Response
 from werkzeug.utils import secure_filename
 from sermonapp.models import File
-from sermonapp.models import FileData
 
 
 def not_found(error=None):
     """Return 404 not found."""
-    if error:
-        error = str(error)
-    return make_response(jsonify({'error': error or 'Not found'}), 404)
+    status_code = 404
+    error = error and str(error)
+    if request_wants_json():
+        return make_response(jsonify({'error': error or 'Not found'}), status_code)
+    return abort(status_code, error)
 
 
 def bad_request(error=None):
-    """Return 404 bad request."""
-    if error:
-        error = str(error)
-    return make_response(jsonify({'error': error or 'Bad request'}), 404)
-    
+    """Return 400 bad request."""
+    status_code = 400
+    error = error and str(error)
+    if request_wants_json():
+        return make_response(jsonify({'error': error or 'Bad request'}), status_code)
+    return abort(status_code, error)
+
 
 def get_file_from_request(key):
     """Get an uploaded file from the current request as File object."""
@@ -33,3 +38,12 @@ def get_file_from_request(key):
         file_data = input_stream.getvalue()
         return File(filename, file.content_type, file_data)
     return None
+
+
+def request_wants_json():
+    """Returns if the request wants json as response."""
+    best = request.accept_mimetypes \
+        .best_match(['application/json', 'text/html'])
+    return best == 'application/json' and \
+        request.accept_mimetypes[best] > \
+        request.accept_mimetypes['text/html']
