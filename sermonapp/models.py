@@ -1,11 +1,58 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # pylint: disable=C0103,C0111
+import uuid
 from datetime import datetime
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy import  Integer, String, LargeBinary, DateTime
+from sqlalchemy import  Integer, String, LargeBinary, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from sermonapp import db
+
+
+def new_uuid():
+    """Create a new uuid in hex format."""
+    return uuid.uuid4().hex
+
+
+class Sermon(db.Model):
+    __tablename__ = 'Sermons'
+
+    id = Column('Id', Integer, primary_key=True)
+    title = Column('Title', String(250), nullable=False)
+    date = Column('Date', DateTime, default=datetime.today, nullable=False)
+    speaker_id = Column('SpeakerId', Integer, ForeignKey('Speakers.Id'), nullable=False)
+    speaker = relationship('Speaker')
+    series_id = Column('SeriesId', Integer, ForeignKey('Series.Id'))
+    series = relationship('Series')
+    category_id = Column('CategoryId', Integer, ForeignKey('Categories.Id'))
+    category = relationship('Category')
+    bible_references = Column('BibleReferences', String(1000))
+    audio_file_id = Column('AudioFileId', Integer, ForeignKey('Files.Id'))
+    audio_file = relationship('File')
+    video_id = Column('VideoId', Integer, ForeignKey('Videos.Id'))
+    video = relationship('Video')
+    published_from = Column('PublishedFrom', DateTime)
+    published_until = Column('PublishedUntil', DateTime)
+    hidden = Column('Hidden', Boolean, nullable=False)
+    created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
+
+    def __repr__(self):
+        return '<Sermon %r>' % (self.id)
+
+
+class Video(db.Model):
+    __tablename__ = 'Videos'
+
+    id = Column('Id', Integer, primary_key=True)
+    provider = Column('Provider', String(100), nullable=False)
+    embed_id = Column('Embed_Id', String(100), nullable=False)
+
+    def __init__(self, provider=None, embed_id=None):
+        self.provider = provider
+        self.embed_id = embed_id
+
+    def __repr__(self):
+        return '<Video %r>' % (self.id)
 
 
 class Speaker(db.Model):
@@ -18,9 +65,7 @@ class Speaker(db.Model):
     description = Column('Description', String(1000))
     image_id = Column('ImageId', Integer, ForeignKey('Files.Id'))
     image = relationship('File')
-
-    def __init__(self, name=None):
-        self.name = name
+    created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
 
     def __repr__(self):
         return '<Speaker %r, %r>' % (self.lastname, self.firstname)
@@ -31,6 +76,7 @@ class Category(db.Model):
 
     id = Column('Id', Integer, primary_key=True)
     name = Column('Name', String(100), unique=True, nullable=False)
+    created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
 
     def __init__(self, name=None):
         self.name = name
@@ -47,7 +93,7 @@ class Series(db.Model):
     description = Column('Description', String(1000))
     image_id = Column('ImageId', Integer, ForeignKey('Files.Id'))
     image = relationship('File')
-    created_at = Column('CreatedAt', DateTime, default=datetime.now)
+    created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
 
     def __init__(self, title=None, description=None):
         self.title = title
@@ -57,14 +103,16 @@ class Series(db.Model):
         return '<Series %r>' % self.title
 
 
+
 class File(db.Model):
     __tablename__ = 'Files'
 
-    id = Column('Id', Integer, primary_key=True)
+    id = Column('Id', String(32), primary_key=True, default=new_uuid)
     name = Column('Name', String(100), nullable=False)
     content_type = Column('ContentType', String(100))
-    file_data_id = Column('FileDataId', Integer, ForeignKey('FileData.Id'))
+    file_data_id = Column('FileDataId', Integer, ForeignKey('FileData.Id'), nullable=False)
     file_data = relationship('FileData', lazy='noload')
+    created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
 
     def __init__(self, name=None, content_type=None, data=None):
         """Initialize a File.
@@ -82,7 +130,7 @@ class File(db.Model):
 
 
 class FileData(db.Model):
-    """Represents a pure binary file data."""
+    """Represents a large binary object (BLOB)."""
 
     __tablename__ = 'FileData'
 
@@ -100,8 +148,9 @@ class User(db.Model):
     __tablename__ = 'Users'
 
     id = Column('Id', Integer, primary_key=True)
-    name = Column('Name', String(50), unique=True)
-    email = Column('Email', String(120), unique=True)
+    name = Column('Name', String(50), unique=True, nullable=False)
+    email = Column('Email', String(120), unique=True, nullable=False)
+    created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
 
     def __init__(self, name=None, email=None):
         self.name = name

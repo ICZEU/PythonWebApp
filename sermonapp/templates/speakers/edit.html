@@ -32,9 +32,11 @@
                 <br />
                 <button type="submit" class="btn btn-lg btn-success">Speichern</button>
                 <a href="{{ url_for('speaker_index') }}" class="btn btn-danger">Abbrechen</a>
-                <a href="{{ url_for('speaker_index') }}" class="btn btn-default pull-right">
+                {% if model %}
+                <a href="{{ url_for('speaker_delete', speaker_id=model.id) }}" class="btn btn-default pull-right">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
                 </a>
+                {% endif %}
             </div>
             <div class="col-md-offset-1 col-md-5">
                 {% if model.image %}

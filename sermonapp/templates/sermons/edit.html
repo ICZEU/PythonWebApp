@@ -6,7 +6,7 @@
   
     <h1 class="page-header">{{ page_title }}</h1>
 
-    <form>
+    <form method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Titel</label>
             <input type="text" class="form-control" id="title">
@@ -19,28 +19,27 @@
             <label for="speaker">Prediger</label>
             <select id="speaker" placeholder="Prediger suchen..." style="width: 100%;">
               <option></option>
-              <option>Andreas Sommer</option>
-              <option>Ignaz Netzer</option>
-              <option>Mark Soboda</option>
-              <option>Markus Schaffelwahn</option>
+              {% for speaker in speakers %}
+                <option value="{{ speaker.id }}">{{ speaker.lastname }}, {{ speaker.firstname }}</option>
+              {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="series">Serie</label>
             <select id="series" placeholder="Serie suchen..." style="width: 100%;">
               <option></option>
-              <option>Kirche für diese Generation</option>
-              <option>Das Johannes-Evangelium</option>
-              <option>Die Gaben des Geistes</option>
+              {% for option in series %}
+                <option value="{{ option.id }}">{{ option.title }}</option>
+              {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="category">Kategorie</label>
             <select id="category" placeholder="Kategorie suchen..." style="width: 100%;">
               <option></option>
-              <option>Jugendgottesdienst</option>
-              <option>Sonttagsgottesdienst</option>
-              <option>Veranstaltung</option>
+              {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+              {% endfor %}
             </select>
         </div>
         <div class="form-group">
@@ -52,10 +51,11 @@
             <input type="file" id="audio">
         </div>
         <div class="form-group">
-            <label for="movietype">Video - Typ</label>
-            <select id="movietype" class="form-control">
-                <option>Vimeo</option>
-                <option>Youtube</option>
+            <label for="video_provider">Video - Typ</label>
+            <select id="video_provider" class="form-control">
+                {% for option in video_providers %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
@@ -63,12 +63,14 @@
             <input id="embedid" type="text" class="form-control">
         </div>
         <div class="form-group">
-            <label for="datestart">Sichtbar ab</label>
+            <label for="datestart">Veröffentlichen ab</label>
             <input id="datestart" type="date" style="width: 100%">
+            <p class="help-block">Leer lassen, wenn die Predigt ab sofort veröffentlicht werden soll.</p>
         </div>
         <div class="form-group">
-            <label for="dateend">Sichtbar bis</label>
+            <label for="dateend">Veröffentlichen bis</label>
             <input id="dateend" type="date" style="width: 100%">
+            <p class="help-block">Kein Datum eingeben, wenn die Predigt für unbegrenzte Zeit veröffentlicht werden soll.</p>
         </div>
         <div class="checkbox">
             <label><input type="checkbox"> Verbergen</label>

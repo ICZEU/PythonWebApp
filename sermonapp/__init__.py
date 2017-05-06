@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+app.config['VIDEO_PROVIDERS'] = ['YouTube', 'Vimeo']
+
 # Keep this really secret. Used to sign the cookies.
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 

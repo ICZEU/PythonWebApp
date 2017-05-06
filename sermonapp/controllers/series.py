@@ -5,6 +5,8 @@ from sermonapp import app, db
 from sermonapp.models import Series
 from sermonapp.utils import not_found
 from sermonapp.utils import get_file_from_request
+from sermonapp.models import FileData
+from sermonapp.database import delete_file
 
 
 @app.route('/series')
@@ -39,7 +41,7 @@ def series_edit(series_id):
         db.session.commit()
         # Clean up previous image.
         if previous_image:
-            delete_image(previous_image)
+            delete_file(previous_image)
         return redirect(url_for('series_index'))
     return render_template('series/edit.html',
         series=series, page_title="Serie bearbeiten")
@@ -51,13 +53,7 @@ def series_delete(series_id):
     if not series:
         return not_found()
     if series.image:
-        delete_image(series.image)
+        delete_file(series.image)
     db.session.delete(series)
     db.session.commit()
     return redirect(url_for('series_index'))
-
-
-def delete_image(image):
-    FileData.query.filter_by(id=image.file_data_id).delete()
-    db.session.delete(image)
-    db.session.commit()
