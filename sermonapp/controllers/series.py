@@ -47,7 +47,7 @@ def series_edit(series_id):
         series=series, page_title="Serie bearbeiten")
 
 
-@app.route('/series/<series_id>/delete', methods=['GET', 'POST'])
+@app.route('/series/<series_id>/delete')
 def series_delete(series_id):
     series = Series.query.get(series_id)
     if not series:

@@ -17,5 +17,7 @@ def get_file(file_id, file_name):
     response.headers['Content-Type'] = file.content_type
     content_disposition = file.content_type.startswith('image') and 'inline' or 'attachment'
     response.headers['Content-Disposition'] = '%s; filename=%s' % (content_disposition, file.name)
+    if file.file_size:
+        response.headers['Content-Length'] = file.file_size
     response.headers['Cache-Control'] = 'public, max-age=31536000'
     return response

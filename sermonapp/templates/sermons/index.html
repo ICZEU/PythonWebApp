@@ -21,15 +21,33 @@
                 <th>Titel</th>
                 <th>Prediger</th>
                 <th>Serie</th>
+                <th>Öffentlich</th>
             </tr>
         </thead>
         <tbody>
+            {% for sermon in sermons %}
             <tr>
-                <td>10.3.2017</td>
-                <td><a href="{{ url_for('sermon_edit') }}">Wüstenmomente</a></td>
-                <td>Sommer, Andreas</td>
-                <td></td>
+                <td>{{ sermon.date | date }}</td>
+                <td><a href="{{ url_for('sermon_edit', sermon_id=sermon.id) }}">{{sermon.title}}</a></td>
+                <td>
+                    {% if sermon.speaker %}
+                    {{ sermon.speaker.lastname }}, {{ sermon.speaker.firstname }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if sermon.series %}
+                    {{ sermon.series.title }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if sermon.is_public() %}
+                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
+                    {% endif %}
+                </td>
             </tr>
+            {% endfor %}
         </tbody>
     </table>
 

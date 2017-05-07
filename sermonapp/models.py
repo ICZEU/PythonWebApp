@@ -4,7 +4,8 @@
 import uuid
 from datetime import datetime
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy import  Integer, String, LargeBinary, DateTime, Boolean
+from sqlalchemy import Integer, String, LargeBinary
+from sqlalchemy import DateTime, Boolean, BigInteger
 from sqlalchemy.orm import relationship
 from sermonapp import db
 
@@ -20,7 +21,7 @@ class Sermon(db.Model):
     id = Column('Id', Integer, primary_key=True)
     title = Column('Title', String(250), nullable=False)
     date = Column('Date', DateTime, default=datetime.today, nullable=False)
-    speaker_id = Column('SpeakerId', Integer, ForeignKey('Speakers.Id'), nullable=False)
+    speaker_id = Column('SpeakerId', Integer, ForeignKey('Speakers.Id'))
     speaker = relationship('Speaker')
     series_id = Column('SeriesId', Integer, ForeignKey('Series.Id'))
     series = relationship('Series')
@@ -33,8 +34,12 @@ class Sermon(db.Model):
     video = relationship('Video')
     published_from = Column('PublishedFrom', DateTime)
     published_until = Column('PublishedUntil', DateTime)
-    hidden = Column('Hidden', Boolean, nullable=False)
+    hidden = Column('Hidden', Boolean, nullable=False, default=False)
     created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
+
+    def is_public(self):
+        """Decides whether a sermon can be published or not."""
+        return self.audio_file or (self.video.provider and self.video.embed_id)
 
     def __repr__(self):
         return '<Sermon %r>' % (self.id)
@@ -45,7 +50,7 @@ class Video(db.Model):
 
     id = Column('Id', Integer, primary_key=True)
     provider = Column('Provider', String(100), nullable=False)
-    embed_id = Column('Embed_Id', String(100), nullable=False)
+    embed_id = Column('EmbedId', String(100), nullable=False)
 
     def __init__(self, provider=None, embed_id=None):
         self.provider = provider
@@ -110,6 +115,7 @@ class File(db.Model):
     id = Column('Id', String(32), primary_key=True, default=new_uuid)
     name = Column('Name', String(100), nullable=False)
     content_type = Column('ContentType', String(100))
+    file_size = Column('FileSize', BigInteger)
     file_data_id = Column('FileDataId', Integer, ForeignKey('FileData.Id'), nullable=False)
     file_data = relationship('FileData', lazy='noload')
     created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
@@ -123,6 +129,7 @@ class File(db.Model):
         """
         self.name = name
         self.content_type = content_type
+        self.file_size = data and len(data)
         self.file_data = FileData(data)
 
     def __repr__(self):

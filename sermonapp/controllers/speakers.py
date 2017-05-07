@@ -50,7 +50,7 @@ def speaker_edit(speaker_id):
         model=speaker, page_title="Bearbeiten")
 
 
-@app.route('/speakers/<speaker_id>/delete', methods=['GET', 'POST'])
+@app.route('/speakers/<speaker_id>/delete')
 def speaker_delete(speaker_id):
     speaker = Speaker.query.get(speaker_id)
     if not speaker:

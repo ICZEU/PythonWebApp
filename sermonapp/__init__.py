@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 app.config['VIDEO_PROVIDERS'] = ['YouTube', 'Vimeo']
 
+
 # Keep this really secret. Used to sign the cookies.
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
@@ -30,3 +31,12 @@ import sermonapp.template_filters
 # Initialize the database
 from sermonapp.database import ensure_database
 ensure_database()
+
+# Date and Time settings
+app.config['DATE_FORMAT'] = '%d.%m.%Y'
+app.config['DATETIME_FORMAT'] = '%d.%m.%Y %H:%M Uhr'
+
+# Convert the python datetime format to kendo datetime
+# format for the client-side date picker.
+from sermonapp.utils import to_kendo_datetime_format
+app.config['KENDO_DATE_FORMAT'] = to_kendo_datetime_format(app.config['DATE_FORMAT'])

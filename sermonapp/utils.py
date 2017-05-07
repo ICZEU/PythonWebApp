@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from io import BytesIO
+from datetime import datetime
 from flask import jsonify
 from flask import make_response
 from flask import request
 from flask import abort
 from werkzeug.utils import secure_filename
+from sermonapp import app
 from sermonapp.models import File
 
 
@@ -46,3 +48,19 @@ def request_wants_json():
     return best == 'application/json' and \
         request.accept_mimetypes[best] > \
         request.accept_mimetypes['text/html']
+
+
+def to_kendo_datetime_format(datetime_format):
+    """Convert a python datetime format (%d.%m.%Y) to a kendo datetime format (dd.MM.yyyy)."""
+    return (datetime_format
+            .replace('%Y', 'yyyy')
+            .replace('%m', 'MM')
+            .replace('%d', 'dd'))
+
+
+def parse_date(date_string):
+    """Parse a date string using the datetime format of the current application."""
+    try:
+        return datetime.strptime(date_string, app.config['DATE_FORMAT'])
+    except ValueError:
+        return None

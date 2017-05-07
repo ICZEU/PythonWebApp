@@ -7,80 +7,128 @@
     <h1 class="page-header">{{ page_title }}</h1>
 
     <form method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="title">Titel</label>
-            <input type="text" class="form-control" id="title">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="title">Titel</label>
+                    <input name="title" type="text" class="form-control" id="title" value="{{ sermon.title }}">
+                </div>
+                <div class="form-group">
+                    <label for="date">Datum</label>
+                    <input name="date" id="date" class="datepicker" type="text" value="{{ sermon.date | date }}" style="width: 100%">
+                </div>
+                <div class="form-group">
+                    <label for="speaker">Prediger</label>
+                    <select name="speaker" id="speaker" placeholder="Prediger suchen..." style="width: 100%;">
+                    <option></option>
+                    {% for speaker in speakers %}
+                        <option value="{{ speaker.id }}"
+                            {{ speaker.id == sermon.speaker_id and 'selected="selected"' }}>
+                            {{ speaker.lastname }}, {{ speaker.firstname }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="series">Serie</label>
+                    <select name="series" id="series" placeholder="Serie suchen..." style="width: 100%;">
+                    <option></option>
+                    {% for option in series %}
+                        <option value="{{ option.id }}"
+                            {{ option.id == sermon.series_id and 'selected="selected"' }}>
+                            {{ option.title }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Kategorie</label>
+                    <select name="category" id="category" placeholder="Kategorie suchen..." style="width: 100%;">
+                    <option></option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}"
+                            {{ category.id == sermon.category_id and 'selected="selected"' }}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="verse">Bibelstellen</label>
+                    <p class="help-block">Pro Bibelstelle eine Zeile angeben.</p>
+                    <textarea name="bible_references" class="form-control" id="verse" rows="5">{{ sermon.bible_references }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="datestart">Veröffentlichen ab</label>
+                    <input name="published_from" value="{{ sermon.published_from | date }}" id="datestart" class="datepicker" type="text" style="width: 100%">
+                    <p class="help-block">Leer lassen, wenn die Predigt ab sofort veröffentlicht werden soll.</p>
+                </div>
+                <div class="form-group">
+                    <label for="dateend">Veröffentlichen bis</label>
+                    <input name="published_until" value="{{ sermon.published_until | date }}" id="dateend" class="datepicker" type="text" style="width: 100%">
+                    <p class="help-block">Kein Datum eingeben, wenn die Predigt für unbegrenzte Zeit veröffentlicht werden soll.</p>
+                </div>
+                <div class="checkbox">
+                    <label><input name="hidden" type="checkbox"
+                    {{ sermon.hidden and 'checked="checked"' }}> Verbergen</label>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Video</h3>
+                        <div class="form-group">
+                            <label for="video_provider">Typ</label>
+                            <select name="video_provider" id="video_provider" class="form-control">
+                                {% for option in video_providers %}
+                                    <option value="{{ option }}"
+                                    {{ sermon.video and option == sermon.video.provider and 'selected="selected"' }}>
+                                    {{ option }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="embedid">Embed Id</label>
+                            <input name="embed_id" id="embedid" type="text" class="form-control"
+                                value="{{ sermon.video and sermon.video.embed_id }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Audio</h3>
+                        <div class="form-group">
+                            <label for="audio">Audio</label>
+                            {% if sermon.audio_file %}
+                                <p>
+                                    <a href="{{ url_for('get_file', file_id=sermon.audio_file.id, file_name=sermon.audio_file.name) }}">
+                                        {{ sermon.audio_file.name }}
+                                    </a>
+                                    {% if sermon.audio_file.file_size %}
+                                        ({{ sermon.audio_file.file_size | human_filesize }})
+                                    {% endif %}
+                                </p>
+                            {% endif %}
+                            <input name="audio_file" type="file" id="audio" accept="audio/*">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="date">Datum</label>
-            <input id="date" type="date" style="width: 100%">
-        </div>
-        <div class="form-group">
-            <label for="speaker">Prediger</label>
-            <select id="speaker" placeholder="Prediger suchen..." style="width: 100%;">
-              <option></option>
-              {% for speaker in speakers %}
-                <option value="{{ speaker.id }}">{{ speaker.lastname }}, {{ speaker.firstname }}</option>
-              {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="series">Serie</label>
-            <select id="series" placeholder="Serie suchen..." style="width: 100%;">
-              <option></option>
-              {% for option in series %}
-                <option value="{{ option.id }}">{{ option.title }}</option>
-              {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="category">Kategorie</label>
-            <select id="category" placeholder="Kategorie suchen..." style="width: 100%;">
-              <option></option>
-              {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.name }}</option>
-              {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="verse">Bibelstellen</label>
-            <textarea class="form-control" id="verse" rows="5"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="audio">Audio</label>
-            <input type="file" id="audio">
-        </div>
-        <div class="form-group">
-            <label for="video_provider">Video - Typ</label>
-            <select id="video_provider" class="form-control">
-                {% for option in video_providers %}
-                    <option value="{{ option }}">{{ option }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="embedid">Video - Embed Id</label>
-            <input id="embedid" type="text" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="datestart">Veröffentlichen ab</label>
-            <input id="datestart" type="date" style="width: 100%">
-            <p class="help-block">Leer lassen, wenn die Predigt ab sofort veröffentlicht werden soll.</p>
-        </div>
-        <div class="form-group">
-            <label for="dateend">Veröffentlichen bis</label>
-            <input id="dateend" type="date" style="width: 100%">
-            <p class="help-block">Kein Datum eingeben, wenn die Predigt für unbegrenzte Zeit veröffentlicht werden soll.</p>
-        </div>
-        <div class="checkbox">
-            <label><input type="checkbox"> Verbergen</label>
-        </div>
+        
         <br />
-        <button type="submit" class="btn btn-lg btn-success">Speichern</button>
-        <a href="{{ url_for('sermon_index') }}" class="btn btn-danger">Abbrechen</a>
-        <a href="{{ url_for('sermon_index') }}" class="btn btn-default pull-right">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
-        </a>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-lg btn-success">Speichern</button>
+                <a href="{{ url_for('sermon_index') }}" class="btn btn-danger">Abbrechen</a>
+                {% if sermon %}
+                <a href="{{ url_for('sermon_delete', sermon_id=sermon.id) }}" class="btn btn-default pull-right">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Löschen
+                </a>
+                {% endif %}
+            </div>
+        </div>
     </form>
 
 {% endblock %}
@@ -100,15 +148,19 @@
             filter: "contains"
         });
 
-        $("input[type=date]").kendoDatePicker();
+        $("input[type=date], .datepicker").kendoDatePicker({
+            format: "{{ config['KENDO_DATE_FORMAT'] }}"
+        });
 
-        //Open on focus logic
         $(function() {
+            // Open dropdown lists when they are focussed.
             $("[data-role=combobox]").each(function() {
-            var widget = $(this).getKendoComboBox();
-            widget.input.on("focus", function() {
-                    widget.open();
+                var widget = $(this).getKendoComboBox();
+                widget.input.on("focus", function() { widget.open(); });
             });
+            $("[data-role=datepicker]").each(function() {
+                var widget = $(this).getKendoDatePicker();
+                widget.element.on("focus", function() { widget.open(); });
             });
         });
     </script>
