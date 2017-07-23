@@ -15,7 +15,7 @@ api = Api(
     api_v1,
     title='SermonApp API',
     version='1.0',
-    description='SermonApp REST API',
+    description='REST API for managing the sermons of your church.'
 )
 
 api.add_namespace(category_api)

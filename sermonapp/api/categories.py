@@ -4,7 +4,7 @@
 from flask_restplus import Namespace, Resource, fields
 from sermonapp.models import Category
 
-api = Namespace('categories', description='Manage categories of sermons.')
+api = Namespace('categories', description='Manage categories for sermons.')
 
 category = api.model('Category', {
     'id': fields.String(required=True),
@@ -29,7 +29,7 @@ class CategoryItem(Resource):
     @api.doc('get_category')
     @api.marshal_with(category)
     def get(self, id):
-        '''Fetch a cat given its identifier'''
+        '''Get a category by its identifier.'''
         item = Category.query.get(id)
         if item:
             return item
