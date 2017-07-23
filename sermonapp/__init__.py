@@ -40,3 +40,7 @@ app.config['DATETIME_FORMAT'] = '%d.%m.%Y %H:%M Uhr'
 # format for the client-side date picker.
 from sermonapp.utils import to_kendo_datetime_format
 app.config['KENDO_DATE_FORMAT'] = to_kendo_datetime_format(app.config['DATE_FORMAT'])
+
+# Initialize REST API
+from .api import api_v1
+app.register_blueprint(api_v1)
