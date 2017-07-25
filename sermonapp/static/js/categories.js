@@ -3,6 +3,7 @@ new function() {
     window.app = window.app || {};
     app.categories = app.categories || {};
 
+    var apiUrl = "/api/v1"
     var $http = app.$http;
 
     app.categories.edit = function(button) {
@@ -38,20 +39,22 @@ new function() {
         };
         if (isNew)
         {
-           $http.postJson('/api/categories', {name: name}).done(callback);
+           $http.postJson(apiUrl + '/categories/', {name: name}).done(callback);
         } else
         {
-            $http.putJson('/api/categories/' + id, {name: name}).done(callback);
+            $http.putJson(apiUrl + '/categories/' + id, {name: name}).done(callback);
         }
     };
 
     app.categories.delete = function(button) {
         var $field = $(button).parents(".category");
-        if ($field.hasClass("category-new") ||
-            confirm('Willst du die Kategorie "' + $('.value', $field).text() + '" sicher löschen?'))
+        if ($field.hasClass("category-new")) {
+            $field.remove();
+        }
+        else if (confirm('Willst du die Kategorie "' + $('.value', $field).text() + '" sicher löschen?'))
         {
             var categoryId = $("input[name=id]", $field).val();
-            $http.delete('/api/categories/' + categoryId)
+            $http.delete(apiUrl + '/categories/' + categoryId)
                 .done(function() {
                     $field.remove();
                 });
