@@ -96,7 +96,7 @@ class Series(db.Model):
     id = Column('Id', Integer, primary_key=True)
     title = Column('Title', String(100), unique=True, nullable=False)
     description = Column('Description', String(1000))
-    image_id = Column('ImageId', Integer, ForeignKey('Files.Id'))
+    image_id = Column('ImageId', String(32), ForeignKey('Files.Id'))
     image = relationship('File')
     created_at = Column('CreatedAt', DateTime, default=datetime.now, nullable=False)
 

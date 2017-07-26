@@ -28,4 +28,6 @@ def default_error_handler(error):
 
 
 from .categories import ns as category_api
+from .series import ns as series_api
 api.add_namespace(category_api)
+api.add_namespace(series_api)
