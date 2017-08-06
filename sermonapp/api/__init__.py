@@ -29,5 +29,7 @@ def default_error_handler(error):
 
 from .categories import ns as category_api
 from .series import ns as series_api
+from .speakers import ns as speaker_api
 api.add_namespace(category_api)
 api.add_namespace(series_api)
+api.add_namespace(speaker_api)
