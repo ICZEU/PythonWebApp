@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %} - ICZE Ulm</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="http://kendo.cdn.telerik.com/2014.2.716/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="http://kendo.cdn.telerik.com/2014.2.716/styles/kendo.bootstrap.min.css" rel="stylesheet" />
+    <link href="http://kendo.cdn.telerik.com/2017.2.621/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="http://kendo.cdn.telerik.com/2017.2.621/styles/kendo.bootstrap.min.css" rel="stylesheet" />
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/site.css') }}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -55,7 +55,7 @@
 
         <div class="col-sm-3 col-md-2 sidebar"> 
           <ul class="nav nav-sidebar">
-            <!--<li class="{{ request.url_rule.rule == '/' and 'active' or '' }}"><a href="{{ url_for('index') }}">Übersicht</a></li>-->
+            <li class="{{ request.url_rule.rule == '/' and 'active' or '' }}"><a href="{{ url_for('index') }}">Übersicht</a></li>
             <li class="{{ request.url_rule.rule.startswith('/sermons') and 'active' or '' }}"><a href="{{ url_for('sermon_index') }}">Predigten</a></li>
             <li class="{{ request.url_rule.rule.startswith('/speakers') and 'active' or '' }}"><a href="{{ url_for('speaker_index') }}">Prediger</a></li>
             <li class="{{ request.url_rule.rule.startswith('/series') and 'active' or '' }}"><a href="{{ url_for('series_index') }}">Serien</a></li>
@@ -84,14 +84,14 @@
       </div>
     </div>
 
-    <script src="http://kendo.cdn.telerik.com/2014.2.716/js/jquery.min.js"></script>
+    <script src="http://kendo.cdn.telerik.com/2017.2.621/js/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="http://kendo.cdn.telerik.com/2014.2.716/js/kendo.ui.core.min.js"></script>
+    <!-- <script src="http://kendo.cdn.telerik.com/2017.2.621/js/kendo.ui.core.min.js"></script> -->
+    <script src="https://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>
 
     <script src="{{ url_for('static', filename='js/core.js') }}"></script>
     <script src="{{ url_for('static', filename='js/speakerSearch.js') }}"></script>
     <script src="{{ url_for('static', filename='js/categories.js') }}"></script>
-
-    {% block scripts %}{% endblock %} 
+    {% block scripts %}{% endblock %}
   </body>
 </html>

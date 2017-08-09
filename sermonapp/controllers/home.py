@@ -8,5 +8,4 @@ from sermonapp import app
 
 @app.route('/')
 def index():
-    #return render_template('home/index.html')
-    return redirect(url_for('sermon_index'))
+    return render_template('home/index.html')

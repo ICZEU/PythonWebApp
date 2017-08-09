@@ -6,7 +6,7 @@ from flask_restplus import Namespace, Resource, fields
 from sermonapp import db
 from sermonapp.api import api
 from sermonapp.models import Category
-from sermonapp.schemas import category_schema
+from sermonapp.schemas import CategorySchema
 
 ns = Namespace('categories', description='Manage categories for sermons.')
 
@@ -37,6 +37,7 @@ class CategoryList(Resource):
             raise BadRequest("Please use the PUT method at endpoint /categories/<id> to update data.")
         if not 'name' in api.payload:
             raise BadRequest()
+        category_schema = CategorySchema()
         model = category_schema.load(api.payload).data
         db.session.add(model)
         db.session.commit()

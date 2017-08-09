@@ -165,3 +165,15 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.name)
+
+
+class UploadChunk():
+    """Metadata of file upload chunk"""
+    def __init__(self, chunk_index=None, content_type=None, file_name=None,
+                 total_file_size=None, total_chunks=None, upload_uid=None):
+        self.chunk_index = chunk_index
+        self.content_type = content_type
+        self.file_name = file_name
+        self.total_file_size = total_file_size
+        self.total_chunks = total_chunks
+        self.upload_uid = upload_uid
