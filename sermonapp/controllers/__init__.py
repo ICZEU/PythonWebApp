@@ -7,3 +7,4 @@ import sermonapp.controllers.speakers
 import sermonapp.controllers.sermons
 import sermonapp.controllers.files
 import sermonapp.controllers.upload
+import sermonapp.controllers.podcast

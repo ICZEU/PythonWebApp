@@ -23,8 +23,8 @@ def sermon_add():
         db.session.commit()
         return redirect(url_for('sermon_index'))
     return render_template(
-        'sermons/edit.html', sermon=None, **get_viewdata(),
-        page_title="Predigt hinzufügen")
+        'sermons/edit.html', sermon=None,
+        page_title="Predigt hinzufügen", **get_viewdata())
 
 
 @app.route('/sermons/<sermon_id>/edit', methods=['GET', 'POST'])
@@ -40,8 +40,8 @@ def sermon_edit(sermon_id):
             delete_file(prev_audiofile)
         return redirect(url_for('sermon_index'))
     return render_template(
-        'sermons/edit.html', sermon=sermon, **get_viewdata(),
-        page_title="Predigt bearbeiten")
+        'sermons/edit.html', sermon=sermon,
+        page_title="Predigt bearbeiten", **get_viewdata())
 
 
 @app.route('/sermons/<sermon_id>/delete')
