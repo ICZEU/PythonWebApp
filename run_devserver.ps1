@@ -9,5 +9,5 @@
         It requires Docker for Windows installed on the local computer.
 #>
 $ErrorActionPreference = "Stop"
-docker build . -t sermonwebapp
-docker run --rm -it -p 5000:5000 -v "$($PSScriptRoot):c:/App" sermonwebapp
+docker build -t sermonwebapp -f ./src/docker/Development.Dockerfile ./src
+docker run --rm -it -p 5000:5000 -v "$($PSScriptRoot)\src:c:\App" sermonwebapp
