@@ -1,14 +1,13 @@
 <#
     .DESCRIPTION
-        This script builds a docker container for this application and runs it.
-        You need to have docker installed on this computer.
-        This script is only intended to be used for development.
+        This script builds the Python runtime environment within a Docker container.
+        The Flask web app is started with the development server.
+
+    .NOTES
+        Don't use this development server in production.
+        The script is only for a development environment at Windows.
+        It requires Docker for Windows installed on the local computer.
 #>
 $ErrorActionPreference = "Stop"
-$old = docker images sermonwebapp -q
 docker build . -t sermonwebapp
-if ($old -ne $(docker images sermonwebapp -q)) {
-    Write-Output "Deleting previously built image $old..."
-    docker rmi $old
-}
-docker run --rm -p 5000:5000 -v "$($PSScriptRoot):/app" -it sermonwebapp
+docker run --rm -it -p 5000:5000 -v "$($PSScriptRoot):c:/App" sermonwebapp
